@@ -11,4 +11,6 @@ public interface BookmarkRepository extends MongoRepository<Bookmark, String> {
 
     @Override
     public Bookmark save(Bookmark bookmark);
+
+    public Bookmark findByUserIdAndUrl(String userId, String url);
 }

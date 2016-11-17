@@ -4,9 +4,12 @@ import com.koodu.exception.BookmarkException;
 import com.koodu.models.Bookmark;
 import com.koodu.models.Response;
 import com.koodu.services.BookmarkService;
+import com.koodu.utils.Constants;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +27,8 @@ public class ServiceTests {
 
     @Autowired
     BookmarkService bookmarkService;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws BookmarkException {
@@ -33,10 +38,22 @@ public class ServiceTests {
 
     @Test
     public void testCreateBookmark() throws BookmarkException {
-        Bookmark bookmark = new Bookmark("af_banjo", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
+        Bookmark bookmark = new Bookmark("af_banjo_ser", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
         Response response = bookmarkService.createBookmark(bookmark);
 
         assertEquals("message mixmatch", "Success", response.getMessage());
+    }
+
+    @Test
+    public void testCreateBookmarkReturnsDuplicateForExistingBookmark() throws BookmarkException {
+        Bookmark bookmark = new Bookmark("af_banjo_1", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
+        Response response = bookmarkService.createBookmark(bookmark);
+
+        assertEquals("message mixmatch", "Success", response.getMessage());
+
+        thrown.expect(BookmarkException.class);
+        thrown.expectMessage(Constants.DUPLICATE_ERROR_MESSAGE);
+        bookmarkService.createBookmark(bookmark);
     }
 
 }

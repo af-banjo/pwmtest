@@ -2,7 +2,8 @@ package com.koodu.exception;
 
 import com.koodu.models.Response;
 import com.koodu.models.Error;
-import org.springframework.http.HttpStatus;
+import com.koodu.utils.Constants;
+import com.koodu.utils.Utils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,15 +14,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 @ControllerAdvice
 public class BookmarkExceptionHandler {
-
+    
     @ExceptionHandler(BookmarkException.class)
     public ResponseEntity<Response> constraintViolation(BookmarkException be) {
-        return new ResponseEntity<>(new Response(be.getError()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new Response(be.getError()), Utils.getHttpStatusFromResponseCode(be.getError().getCode()));
     }
-
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response> constraintViolation(Exception te) {
         te.printStackTrace();
-        return new ResponseEntity<>(new Response(new Error("01", "Server Error")), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new Response(new Error(Constants.SERVER_ERROR_CODE, Constants.SERVER_ERROR_MESSAGE)), Utils.getHttpStatusFromResponseCode(Constants.SERVER_ERROR_CODE));
     }
 }

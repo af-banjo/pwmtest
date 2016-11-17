@@ -21,12 +21,20 @@ public class BookmarkService {
     BookmarkRepository bookmarkRepository;
 
     public Response createBookmark(Bookmark bookmark) throws BookmarkException {
+        if (exists(bookmark)) {
+            throw new BookmarkException(Constants.DUPLICATE_ERROR_CODE, Constants.DUPLICATE_ERROR_MESSAGE);
+        }
         Bookmark bookmarkResponse = bookmarkRepository.save(bookmark);
         if (bookmarkResponse == null || StringUtils.isEmpty(bookmarkResponse.getId())) {
-            throw new BookmarkException("02", "Could not create");
+            throw new BookmarkException(Constants.SERVER_ERROR_CODE, Constants.SERVER_ERROR_MESSAGE);
         } else {
             return new Response(Constants.SUCCESS_MESSAGE);
         }
+    }
+
+    public boolean exists(Bookmark bookmark) throws BookmarkException {
+        Bookmark bookmarkResponse = bookmarkRepository.findByUserIdAndUrl(bookmark.getUserId(), bookmark.getUrl());
+        return bookmarkResponse != null && !StringUtils.isEmpty(bookmarkResponse.getId());
     }
 
     public Response deleteAllBookmarks() throws BookmarkException {
