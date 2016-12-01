@@ -1,5 +1,7 @@
 package com.koodu.models;
 
+import java.time.LocalDateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -12,17 +14,17 @@ public class Bookmark {
     private String Id;
     private String userId;
     private String url;
-    private String savedDate;
-    private String readDate;
+    @CreatedDate
+    private LocalDateTime createdAt;
+    private LocalDateTime readAt;
 
     public Bookmark() {
     }
 
-    public Bookmark(String userId, String url, String savedDate, String readDate) {
+    public Bookmark(String userId, String url, LocalDateTime readAt) {
         this.userId = userId;
         this.url = url;
-        this.savedDate = savedDate;
-        this.readDate = readDate;
+        this.readAt = readAt;
     }
 
     public String getId() {
@@ -49,19 +51,20 @@ public class Bookmark {
         this.url = url;
     }
 
-    public String getSavedDate() {
-        return savedDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setSavedDate(String savedDate) {
-        this.savedDate = savedDate;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getReadDate() {
-        return readDate;
+    public LocalDateTime getReadAt() {
+        return readAt;
     }
 
-    public void setReadDate(String readDate) {
-        this.readDate = readDate;
+    public void setReadAt(LocalDateTime readAt) {
+        this.readAt = readAt;
     }
+
 }

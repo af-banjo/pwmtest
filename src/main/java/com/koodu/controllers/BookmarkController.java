@@ -27,6 +27,6 @@ public class BookmarkController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Response> createBookmark(@Valid @RequestBody Bookmark bookmark) throws BookmarkException {
         Response response = bookmarkService.createBookmark(bookmark);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

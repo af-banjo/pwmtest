@@ -3,6 +3,8 @@ package com.koodu;
 import com.koodu.models.Bookmark;
 import com.koodu.models.Response;
 import com.koodu.utils.Constants;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +28,13 @@ public class IntegrationTests {
     @Test
     public void testCreateBookmark() {
 
-        Bookmark bookmark = new Bookmark("af_banjo_int", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
+        Bookmark bookmark = new Bookmark("af_banjo_int", "https://google.com", LocalDateTime.parse("15-11-2016 09:17:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
 
         ResponseEntity<Response> responseEntity = restTemplate.postForEntity(TestConstants.BASE_URL, bookmark, Response.class);
         Response apiResponse = responseEntity.getBody();
         MediaType mediaType = responseEntity.getHeaders().getContentType();
 
-        assertEquals("Status code mismatch", HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Status code mismatch", HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals("Content-Type mismatch", MediaType.APPLICATION_JSON_UTF8, mediaType);
         assertEquals("Response message mismatch", "Success", apiResponse.getMessage());
     }
@@ -40,13 +42,13 @@ public class IntegrationTests {
     @Test
     public void testCreateBookmarkReturnsDuplicateForExistingBookmark() {
 
-        Bookmark bookmark = new Bookmark("af_banjo1", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
+        Bookmark bookmark = new Bookmark("af_banjo1", "https://google.com", LocalDateTime.parse("15-11-2016 09:17:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
 
         ResponseEntity<Response> responseEntity = restTemplate.postForEntity(TestConstants.BASE_URL, bookmark, Response.class);
         Response apiResponse = responseEntity.getBody();
         MediaType mediaType = responseEntity.getHeaders().getContentType();
 
-        assertEquals("Status code mismatch", HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Status code mismatch", HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals("Content-Type mismatch", MediaType.APPLICATION_JSON_UTF8, mediaType);
         assertEquals("Response message mismatch", "Success", apiResponse.getMessage());
 

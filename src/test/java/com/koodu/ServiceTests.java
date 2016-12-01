@@ -5,6 +5,8 @@ import com.koodu.models.Bookmark;
 import com.koodu.models.Response;
 import com.koodu.services.BookmarkService;
 import com.koodu.utils.Constants;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,7 +40,7 @@ public class ServiceTests {
 
     @Test
     public void testCreateBookmark() throws BookmarkException {
-        Bookmark bookmark = new Bookmark("af_banjo_ser", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
+        Bookmark bookmark = new Bookmark("af_banjo_ser", "https://google.com", LocalDateTime.parse("15-11-2016 09:17", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
         Response response = bookmarkService.createBookmark(bookmark);
 
         assertEquals("message mixmatch", "Success", response.getMessage());
@@ -46,7 +48,7 @@ public class ServiceTests {
 
     @Test
     public void testCreateBookmarkReturnsDuplicateForExistingBookmark() throws BookmarkException {
-        Bookmark bookmark = new Bookmark("af_banjo_1", "https://google.com", "14-11-2016 09:17", "15-11-2016 09:17");
+        Bookmark bookmark = new Bookmark("af_banjo_1", "https://google.com", LocalDateTime.parse("15-11-2016 09:17", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
         Response response = bookmarkService.createBookmark(bookmark);
 
         assertEquals("message mixmatch", "Success", response.getMessage());
