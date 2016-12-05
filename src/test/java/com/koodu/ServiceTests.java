@@ -40,7 +40,7 @@ public class ServiceTests {
 
     @Test
     public void testCreateBookmark() throws BookmarkException {
-        Bookmark bookmark = new Bookmark("af_banjo_ser", "https://google.com", LocalDateTime.parse("15-11-2016 09:17", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+        Bookmark bookmark = new Bookmark("af_banjo_ser", "https://google.com", LocalDateTime.parse("15-11-2016 09:17:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
         Response response = bookmarkService.createBookmark(bookmark);
 
         assertEquals("message mixmatch", "Success", response.getMessage());
@@ -48,7 +48,7 @@ public class ServiceTests {
 
     @Test
     public void testCreateBookmarkReturnsDuplicateForExistingBookmark() throws BookmarkException {
-        Bookmark bookmark = new Bookmark("af_banjo_1", "https://google.com", LocalDateTime.parse("15-11-2016 09:17", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+        Bookmark bookmark = new Bookmark("af_banjo_1", "https://google.com", LocalDateTime.parse("15-11-2016 09:17:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
         Response response = bookmarkService.createBookmark(bookmark);
 
         assertEquals("message mixmatch", "Success", response.getMessage());
