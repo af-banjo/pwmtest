@@ -9,33 +9,27 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
 
-    private String message;
-    private Error error;
+    private String responseCode;
+    private String responseDecription;
 
-    public Response() {
+    public Response(String responseCode, String responseDecription) {
+        this.responseCode = responseCode;
+        this.responseDecription = responseDecription;
     }
 
-    public Response(String message) {
-        this.message = message;
+    public String getResponseCode() {
+        return responseCode;
     }
 
-    public Response(Error error) {
-        this.error = error;
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
-    public String getMessage() {
-        return message;
+    public String getResponseDecription() {
+        return responseDecription;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Error getError() {
-        return error;
-    }
-
-    public void setError(Error error) {
-        this.error = error;
+    public void setResponseDecription(String responseDecription) {
+        this.responseDecription = responseDecription;
     }
 }

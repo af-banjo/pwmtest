@@ -15,7 +15,15 @@ public class Utils {
             case Constants.DUPLICATE_ERROR_CODE:
                 httpStatus = HttpStatus.CONFLICT;
                 break;
-
+            case Constants.SUBSCRIBER_NOT_FOUND_ERROR_CODE:
+                httpStatus = HttpStatus.NOT_FOUND;
+                break;
+            case Constants.SECURITY_VIOLATION_ERROR_CODE:
+                httpStatus = HttpStatus.BAD_REQUEST;
+                break;
+            case Constants.INSUFFICIENT_BALANCE_ERROR_CODE:
+                httpStatus = HttpStatus.BAD_REQUEST;
+                break;
         }
         return httpStatus;
     }
