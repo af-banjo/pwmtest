@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.koodu</groupId>
-    <artifactId>bookmark</artifactId>
+    <artifactId>pwmtest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>bookmark</name>
-    <description>A bookmarking service backend</description>
+    <name>pwmtest</name>
+    <description>A basic rest service to implement pwm generic specs</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -43,9 +43,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>4.0.4.RELEASE</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
