@@ -13,4 +13,6 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     public Transaction save(Transaction bookmark);
 
     public Transaction findBySubscriberIdAndProviderToken(String subscriberId, String providerToken);
+
+    public Transaction findByTransactionId(String transactionId);
 }

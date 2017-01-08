@@ -19,9 +19,8 @@ public class Utils {
                 httpStatus = HttpStatus.NOT_FOUND;
                 break;
             case Constants.SECURITY_VIOLATION_ERROR_CODE:
-                httpStatus = HttpStatus.BAD_REQUEST;
-                break;
             case Constants.INSUFFICIENT_BALANCE_ERROR_CODE:
+            case Constants.INVALID_TRANSACTION_ERROR_CODE:
                 httpStatus = HttpStatus.BAD_REQUEST;
                 break;
         }

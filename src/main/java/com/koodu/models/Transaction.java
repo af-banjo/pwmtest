@@ -23,6 +23,7 @@ public class Transaction {
     private String macdata;
     private String paycode;
     private String status;
+    private String originalTransactionId;
 
     public long getSubscriberId() {
         return subscriberId;
@@ -118,6 +119,14 @@ public class Transaction {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getOriginalTransactionId() {
+        return originalTransactionId;
+    }
+
+    public void setOriginalTransactionId(String originalTransactionId) {
+        this.originalTransactionId = originalTransactionId;
     }
 
 }

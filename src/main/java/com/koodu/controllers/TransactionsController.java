@@ -32,8 +32,14 @@ public class TransactionsController {
     }
 
     @RequestMapping(value = "/authorize", method = RequestMethod.POST)
-    public ResponseEntity<Response> authorizeTransaaction(@Valid @RequestBody Transaction transaction) throws TransactionException {
+    public ResponseEntity<Response> authorizeTransaction(@Valid @RequestBody Transaction transaction) throws TransactionException {
         Response response = transactionService.makeTransaction(transaction);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/reverse", method = RequestMethod.POST)
+    public ResponseEntity<Response> reverseTransaction(@Valid @RequestBody Transaction transaction) throws TransactionException {
+        Response response = transactionService.reverseTransaction(transaction);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
