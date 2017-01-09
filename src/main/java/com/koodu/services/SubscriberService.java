@@ -38,7 +38,7 @@ public class SubscriberService {
         }
     }
 
-    public Subscriber getSubscriber(long subscriberId) throws TransactionException {
+    public Subscriber getSubscriber(String subscriberId) throws TransactionException {
         Subscriber subscriber = subscriberRepository.findBySubscriberId(subscriberId);
         if (subscriber == null || StringUtils.isEmpty(subscriber.getSubscriberId())) {
             throw new TransactionException(Constants.SUBSCRIBER_NOT_FOUND_ERROR_CODE, Constants.SUBSCRIBER_NOT_FOUND_ERROR_MESSAGE);

@@ -1,6 +1,7 @@
 package com.koodu.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -12,7 +13,9 @@ public class Transaction {
 
     @Id
     private String providerToken;
-    private long subscriberId;
+    @NotBlank(message = "SubscriberId is required")
+    private String subscriberId;
+    @NotBlank(message = "TransactionId is required")
     private String transactionId;
     private String transactionType;
     private String narration;
@@ -21,15 +24,16 @@ public class Transaction {
     private double amount;
     private String acquirer;
     private String macdata;
+    @NotBlank(message = "Paycode is required")
     private String paycode;
     private String status;
     private String originalTransactionId;
 
-    public long getSubscriberId() {
+    public String getSubscriberId() {
         return subscriberId;
     }
 
-    public void setSubscriberId(long subscriberId) {
+    public void setSubscriberId(String subscriberId) {
         this.subscriberId = subscriberId;
     }
 
