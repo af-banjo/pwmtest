@@ -131,6 +131,7 @@ public class TransactionService {
         } else {
             baseStringToBeSigned = transaction.getSubscriberId() + "&" + transaction.getProviderToken() + "&" + transaction.getTransactionType() + "&" + transaction.getPaycode() + "8/orifg8Gt6SRT1RqwkZsMaFqek=";
         }
+        System.out.println("StringBase: " + baseStringToBeSigned);
         MessageDigest messageDigest = null;
         try {
             messageDigest = MessageDigest.getInstance("SHA1");
@@ -139,7 +140,7 @@ public class TransactionService {
         }
         byte[] signatureBytes = messageDigest.digest(baseStringToBeSigned.getBytes());
         String computedMacData = new String(Base64.encode(signatureBytes));
-        System.out.println(computedMacData);
+        System.out.println("Computed Mac: " + computedMacData);
         
         if (!computedMacData.equals(macdata)) {
             throw new TransactionException(Constants.SECURITY_VIOLATION_ERROR_CODE, Constants.SECURITY_VIOLATION_ERROR_MESSAGE);
