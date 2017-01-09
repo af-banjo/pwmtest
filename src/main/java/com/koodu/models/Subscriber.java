@@ -1,8 +1,6 @@
 package com.koodu.models;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,11 +16,9 @@ public class Subscriber {
 
     @Id
     private String id;
-    @NotNull
+    @NotBlank(message = "SubscriberId is required")
     @Indexed(unique = true)
-    private long subscriberId;
-    @NotNull
-    @Min(0)
+    private String subscriberId;
     private double balance;
 
     public String getId() {
@@ -33,11 +29,11 @@ public class Subscriber {
         this.id = id;
     }
 
-    public long getSubscriberId() {
+    public String getSubscriberId() {
         return subscriberId;
     }
 
-    public void setSubscriberId(long subscriberId) {
+    public void setSubscriberId(String subscriberId) {
         this.subscriberId = subscriberId;
     }
 

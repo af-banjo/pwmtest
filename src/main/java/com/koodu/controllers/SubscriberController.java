@@ -38,7 +38,7 @@ public class SubscriberController {
     }
 
     @RequestMapping(value = "/{subscriberId}", method = RequestMethod.GET)
-    public ResponseEntity<Subscriber> getSubscriber(@PathVariable("subscriberId") long subscriberId) throws TransactionException {
+    public ResponseEntity<Subscriber> getSubscriber(@PathVariable("subscriberId") String subscriberId) throws TransactionException {
         Subscriber subscriberResponse = subscriberService.getSubscriber(subscriberId);
         return new ResponseEntity<>(subscriberResponse, HttpStatus.OK);
     }

@@ -12,5 +12,5 @@ public interface SubscriberRepository extends MongoRepository<Subscriber, String
     @Override
     public Subscriber save(Subscriber subscriber);
     
-    public Subscriber findBySubscriberId(long subscirberId);
+    public Subscriber findBySubscriberId(String subscirberId);
 }
