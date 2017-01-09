@@ -20,12 +20,12 @@ import org.springframework.security.crypto.codec.Base64;
 
 @Service
 public class TransactionService {
-    
+
     @Autowired
     TransactionRepository transactionRepository;
     @Autowired
     SubscriberService subscriberService;
-    
+
     public Response createTransaction() throws TransactionException {
         Transaction transactionResponse = transactionRepository.save(new Transaction());
         if (transactionResponse == null || StringUtils.isEmpty(transactionResponse.getProviderToken())) {
@@ -34,7 +34,7 @@ public class TransactionService {
             return new Response(transactionResponse.getProviderToken());
         }
     }
-    
+
     public Response makeTransaction(Transaction transaction) throws TransactionException {
         Transaction transactionResponse = transactionRepository.findOne(transaction.getProviderToken());
         if (transactionResponse == null || StringUtils.isEmpty(transactionResponse.getProviderToken())) {
@@ -47,7 +47,7 @@ public class TransactionService {
             double balance = getBalance(subscriber.getBalance(), transaction.getAmount());
             subscriber.setBalance(balance);
             subscriberService.updateSubscriber(subscriber);
-            
+
             transactionResponse.setSubscriberId(transaction.getSubscriberId());
             transactionResponse.setTransactionId(transaction.getTransactionId());
             transactionResponse.setTransactionType(transaction.getTransactionType());
@@ -67,7 +67,7 @@ public class TransactionService {
             }
         }
     }
-    
+
     public Response reverseTransaction(Transaction transaction) throws TransactionException {
         Transaction transactionResponse = transactionRepository.findByTransactionId(transaction.getOriginalTransactionId());
         if (transactionResponse == null || StringUtils.isEmpty(transactionResponse.getProviderToken())) {
@@ -95,7 +95,7 @@ public class TransactionService {
             }
         }
     }
-    
+
     public List<Transaction> getAllTransactions() throws TransactionException {
         List<Transaction> transactionResponse = transactionRepository.findAll();
         if (transactionResponse == null || transactionResponse.isEmpty()) {
@@ -104,7 +104,7 @@ public class TransactionService {
             return transactionResponse;
         }
     }
-    
+
     public Transaction getTransaction(String transactionId) throws TransactionException {
         Transaction transactionResponse = transactionRepository.findByTransactionIdOrOriginalTransactionId(transactionId);
         if (transactionResponse == null || StringUtils.isEmpty(transactionResponse.getProviderToken())) {
@@ -113,7 +113,7 @@ public class TransactionService {
             return transactionResponse;
         }
     }
-    
+
     private double getBalance(double balance, double amount) throws TransactionException {
         if (balance >= amount) {
             balance -= amount;
@@ -122,14 +122,14 @@ public class TransactionService {
         }
         return balance;
     }
-    
+
     private void validateMacData(Transaction transaction) throws TransactionException {
         String macdata = transaction.getMacdata();
         String baseStringToBeSigned = "";
         if (!StringUtils.isEmpty(transaction.getOriginalTransactionId())) {
-            baseStringToBeSigned = transaction.getSubscriberId() + "&" + transaction.getPaycode() + "8/orifg8Gt6SRT1RqwkZsMaFqek=";
+            baseStringToBeSigned = transaction.getSubscriberId() + "&" + transaction.getPaycode() + "&" + "8/orifg8Gt6SRT1RqwkZsMaFqek=";
         } else {
-            baseStringToBeSigned = transaction.getSubscriberId() + "&" + transaction.getProviderToken() + "&" + transaction.getTransactionType() + "&" + transaction.getPaycode() + "8/orifg8Gt6SRT1RqwkZsMaFqek=";
+            baseStringToBeSigned = transaction.getSubscriberId() + "&" + transaction.getProviderToken() + "&" + transaction.getTransactionType() + "&" + transaction.getPaycode() + "&" + "8/orifg8Gt6SRT1RqwkZsMaFqek=";
         }
         System.out.println("StringBase: " + baseStringToBeSigned);
         MessageDigest messageDigest = null;
@@ -141,7 +141,7 @@ public class TransactionService {
         byte[] signatureBytes = messageDigest.digest(baseStringToBeSigned.getBytes());
         String computedMacData = new String(Base64.encode(signatureBytes));
         System.out.println("Computed Mac: " + computedMacData);
-        
+
         if (!computedMacData.equals(macdata)) {
             throw new TransactionException(Constants.SECURITY_VIOLATION_ERROR_CODE, Constants.SECURITY_VIOLATION_ERROR_MESSAGE);
         }
